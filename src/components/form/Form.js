@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const Form = () => {
   const [selectedType, setSelectedType] = useState('') 
+  const [fetching, setFetching] = useState(false)
 
   const [brands, setBrands] = useState([]) 
   const [selectedBrand, setSelectedBrand] = useState('')
@@ -11,91 +12,78 @@ const Form = () => {
   const [selectedYear, setSelectedYear] = useState('')
   const [result, setResult] = useState(null)
 
-  useEffect(() => {
-    let ignore = false
-    if (!selectedType) {
-      return
+  const selectedTypeChange = async (e) => {
+    setSelectedType(e.target.value)
+    
+    setFetching(true)
+    try {
+      const response = await fetch(`https://parallelum.com.br/fipe/api/v1/${e.target.value}/marcas`)
+      const data = await response.json()
+
+      setBrands([...data])
+      setModels('')
+      setYears('')
+      setResult(null)
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setFetching(false)
     }
+  }
 
-    const getBrands = async () => {
-      try {
-        const response = await fetch(`https://parallelum.com.br/fipe/api/v1/${selectedType}/marcas`)
-        const data = await response.json()
+  const selectedBrandChange = async (e) => {
+    setSelectedBrand(e.target.value)
+    
+    setFetching(true)
+    try {
+      const response = await fetch(`https://parallelum.com.br/fipe/api/v1/${selectedType}/marcas/${e.target.value}/modelos`)
+      const data = await response.json()
 
-        if (!ignore) {
-          setBrands([...data])
-        }
-        
-      } catch (error) {
-        console.log(error)
-      }
+      setModels([...data.modelos])
+      setYears('')
+      setResult(null)
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setFetching(false)
     }
+  }
 
-    getBrands()
-
-    return () => ignore = true
-  }, [selectedType])
-
-  useEffect(() => {
-    let ignore = false
-    if (!selectedBrand) {
-      return
+  const selectedModelChange = async (e) => {
+    setSelectedModel(e.target.value)
+    
+    setFetching(true)
+    try {
+      const response = await fetch(`https://parallelum.com.br/fipe/api/v1/${selectedType}/marcas/${selectedBrand}/modelos/${e.target.value}/anos`)
+      const data = await response.json()
+      setYears([...data])
+      setResult(null)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setFetching(false)
     }
-
-    const getModels = async () => {
-      try {
-        const response = await fetch(`https://parallelum.com.br/fipe/api/v1/${selectedType}/marcas/${selectedBrand}/modelos`)
-        const data = await response.json()
-
-        if (!ignore) {
-          setModels([...data.modelos])
-        }
-        
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    getModels()
-
-    return () => ignore = true
-  }, [selectedBrand])
-
-  useEffect(() => {
-    let ignore = false
-    if (!selectedModel) {
-      return
-    }
-
-    const getYears = async () => {
-      try {
-        const response = await fetch(`https://parallelum.com.br/fipe/api/v1/${selectedType}/marcas/${selectedBrand}/modelos/${selectedModel}/anos`)
-        const data = await response.json()
-
-        if (!ignore) {
-          setYears([...data])
-        }
-        
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    getYears()
-
-    return () => ignore = true
-  }, [selectedModel])
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await fetch(`https://parallelum.com.br/fipe/api/v1/${selectedType}/marcas/${selectedBrand}/modelos/${selectedModel}/anos/${selectedYear}`)
-    const data = await response.json()
-    setResult(data)
+    setFetching(true)
+    try {
+      const response = await fetch(`https://parallelum.com.br/fipe/api/v1/${selectedType}/marcas/${selectedBrand}/modelos/${selectedModel}/anos/${selectedYear}`)
+      const data = await response.json()
+      setResult(data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setFetching(false)
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <select name="type" value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+    <form onSubmit={handleSubmit} disabled={fetching}>
+      <select name="type" value={selectedType} onChange={selectedTypeChange} disabled={fetching}>
         <option value="">Tipo do veículo</option>
         <option value="carros">Carros</option>
         <option value="motos">Motos</option>
@@ -103,7 +91,7 @@ const Form = () => {
       </select>
 
       {Boolean(brands.length) && (
-        <select name="brand" value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
+        <select name="brand" value={selectedBrand} onChange={selectedBrandChange} disabled={fetching}>
           <option value="">Marca do veículo</option>
           {brands.map((brand) => (
             <option key={brand.codigo} value={brand.codigo}>{brand.nome}</option>
@@ -112,7 +100,7 @@ const Form = () => {
       )}
 
       {Boolean(models.length) && (
-        <select name="model" value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
+        <select name="model" value={selectedModel} onChange={selectedModelChange} disabled={fetching}>
           <option value="">Modelo do veículo</option>
           {models.map((model) => (
             <option key={model.codigo} value={model.codigo}>{model.nome}</option>
