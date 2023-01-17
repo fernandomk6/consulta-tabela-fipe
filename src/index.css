@@ -61,6 +61,7 @@ button {
   background-color: #FB2860;
   color: whitesmoke;
   margin-top: 2rem;
+  text-align: center;
 }
 
 button:hover {

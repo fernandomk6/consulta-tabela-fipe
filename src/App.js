@@ -137,11 +137,11 @@ const App = () => {
         <div className='result'>
           <ul>
             <li><strong className='price'>{result.Valor}</strong></li>
-            <li>modelo: <strong>{result.Modelo}</strong></li>
-            <li>ano modelo: <strong>{result.AnoModelo}</strong></li>
-            <li>combustivel: <strong>{result.Combustivel}</strong></li>
-            <li>Mês referência: <strong>{result.MesReferencia}</strong></li>
-            <li>codigo fipe: <strong>{result.CodigoFipe}</strong></li>
+            <li>Modelo: <strong>{result.Modelo}</strong></li>
+            <li>Ano: <strong>{result.AnoModelo}</strong></li>
+            <li>Combustível: <strong>{result.Combustivel}</strong></li>
+            <li>Mês da consulta: <strong>{result.MesReferencia}</strong></li>
+            <li>Código fipe: <strong>{result.CodigoFipe}</strong></li>
           </ul>
           <button onClick={handleResetForm}>Nova consulta</button>
         </div>
