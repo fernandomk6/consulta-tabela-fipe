@@ -1,4 +1,3 @@
-
 body {
   font-family: 'Rubik', sans-serif;
   height: 100vh;
@@ -24,10 +23,14 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #44497041;
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
 }
 
-form select, 
-form button {
+select, 
+button {
   width: 200px;
   padding: 10px 20px;
   appearance: none;
@@ -39,30 +42,63 @@ form button {
   cursor: pointer;
 }
 
-form {
-  background-color: #44497041;
-  width: 100%;
-  padding: 10px;
-  border-radius: 20px;
-}
-
-form select {
+select {
   background-color: #444970;
   color: white;
 }
 
-form select:hover {
+button:focus,
+select:focus {
+  outline: 4px solid #FFF980;
+}
+
+select:hover {
   background-color: #30334b;
   color: white;
 }
 
-form button {
+button {
   background-color: #FB2860;
-  
   color: whitesmoke;
   margin-top: 2rem;
 }
 
-form button:hover {
+button:hover {
   background-color: #a32b4b;
+}
+
+ul {
+  list-style: none;
+}
+
+.result {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: whitesmoke;
+}
+
+.result ul {
+  padding: 0;
+  width: 100%;
+  background-color: #444970;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.result ul li {
+  padding: 10px 0;
+}
+
+.result ul li:not(.result ul li:last-child) {
+  border-bottom: 1px solid #30334b;
+}
+
+strong {
+  font-size: 1.5rem;
+}
+
+.price {
+  font-size: 2.5rem;
 }
