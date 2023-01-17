@@ -21,8 +21,9 @@ const Form = () => {
       const data = await response.json()
 
       setBrands([...data])
-      setModels('')
-      setYears('')
+      setModels([])
+      setYears([])
+      setSelectedYear('')
       setResult(null)
 
     } catch (error) {
@@ -41,7 +42,8 @@ const Form = () => {
       const data = await response.json()
 
       setModels([...data.modelos])
-      setYears('')
+      setYears([])
+      setSelectedYear('')
       setResult(null)
 
     } catch (error) {
@@ -117,7 +119,8 @@ const Form = () => {
         </select>
       )}
 
-      <button>Consultar preço</button>
+      {Boolean(selectedYear) && <button>Consultar preço</button>}
+      
       {Boolean(result) && (
         <ul>
           <li>ano modelo: {result.AnoModelo}</li>

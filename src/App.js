@@ -3,7 +3,7 @@ import Form from './components/form/Form'
 const App = () => {
   return (
     <div className="App">
-      <div>Consulta tabela FIPE</div>
+      <h1>Consulta tabela FIPE</h1>
       <Form />
     </div>
   )
