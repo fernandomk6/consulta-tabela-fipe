@@ -17,6 +17,7 @@ body {
 
 .App h1 {
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 form {
@@ -89,7 +90,11 @@ ul {
 }
 
 .result ul li {
-  padding: 10px 0;
+  padding: 10px;
+}
+
+.result ul li strong {
+  display: block;
 }
 
 .result ul li:not(.result ul li:last-child) {
@@ -102,4 +107,14 @@ strong {
 
 .price {
   font-size: 2.5rem;
+}
+
+@media screen and (max-width: 400px){
+  strong {
+    font-size: 1rem;
+  }
+  
+  .price {
+    font-size: 2rem;
+  }
 }
