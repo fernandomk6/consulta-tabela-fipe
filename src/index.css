@@ -1,7 +1,6 @@
 body {
   font-family: 'Rubik', sans-serif;
   height: 100vh;
-  width: 100vw;
   margin: 0;
   padding: 0;
   background-color: #8A9EA0;
@@ -90,7 +89,7 @@ ul {
 }
 
 .result ul li {
-  padding: 10px;
+  padding: 10px;  
 }
 
 .result ul li strong {
